@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
+
 using namespace std;
+
  void round(float x, float y, float v, float angle )
     {
      
@@ -22,6 +24,7 @@ using namespace std;
 	  
 	}
     }
+
 int main()
 {
   float x;
