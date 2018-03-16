@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
+//compiler sur mac : gcc main.cpp -o main -F/Library/Frameworks -framework SDL2
+
 
 int main(int argc, char **argv)
 {
