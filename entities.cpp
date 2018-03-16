@@ -44,8 +44,11 @@ struct Bat{
     Hitbox h;    //hitbox du batiment
 };
 
-void initPayer (Player*)
+void initPayer (Player* P1)
 {
-    (*Player).score=0;
-    (*Player).
+    (*P1).score=0;
+    (*P1).hp=3;
+    (*P1).x = 20;
+    (*P).y = 300;
+    
 }
