@@ -9,7 +9,7 @@ int main(int argc, char **argv)
     SDL_Window* fenetre(0);
     SDL_Event evenements;
     bool terminer(false);
-    
+   
     
     // Initialisation de la SDL
     
@@ -34,6 +34,12 @@ int main(int argc, char **argv)
         return -1;
     }
     
+    int SDL_RenderDrawLine(SDL_Renderer* renderer,
+                       int           0,
+                       int           300,
+                       int           800,
+                       int           300)
+
     
     // Boucle principale
     
