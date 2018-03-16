@@ -6,7 +6,7 @@ struct hitbox{
 };
 
 //Joueur
-struct Player{
+struct player{
     int hp;     //vie du joueur
     int score;  //score du joueur
     float x;    //position x du joueur
@@ -22,7 +22,7 @@ struct Player{
 };
 
 //Projectiles
-struct Bullet{
+struct bullet{
     float x;    //position x
     float y;    //position y
     float v;    //vitesse de
@@ -31,7 +31,7 @@ struct Bullet{
 };
 
 //Ennemis
-struct Tank{
+struct tank{
     int hp;     //vie de l'ennemi
     float x;    //position x de l'ennemi
     float y;    //position y de l'ennemi
@@ -40,13 +40,13 @@ struct Tank{
 };
 
 //Bâtiments
-struct Bat{
+struct bat{
     int hp;       //vie du bêtiment
     float x, y;   //position x et y
     Hitbox h;    //hitbox du batiment
 };
 
-void initPayer (Player* P1)
+void initPlayer (Player* P1)
 {
     (*P1).score=0;
     (*P1).hp=3;
