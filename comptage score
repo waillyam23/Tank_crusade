@@ -1,0 +1,5 @@
+void score_add (int* score)
+{
+  *score += 1;
+}
+
