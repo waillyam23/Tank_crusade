@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+
 int main()
 {
 var obus = {x: 0, y: 0, width: 10, height: 10}
