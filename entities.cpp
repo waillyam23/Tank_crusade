@@ -16,6 +16,8 @@ struct Player{
     float mspeed;//vitesse du joueur
     float bspeed;//vitesse des projectiles
     float reload;//temps de rechargement
+    float elevation;//elevation maximale du canon
+    float depression;//elevation minimale du canon
     
 };
 
@@ -49,6 +51,17 @@ void initPayer (Player* P1)
     (*P1).score=0;
     (*P1).hp=3;
     (*P1).x = 20;
-    (*P).y = 300;
-    
+    (*P1).y = 201;
+    (*P1).a = 0;
+    (*P1).h.x=(*P1).x;
+    (*P1).h.y=(*P1).y;
+    (*P1).h.w=171;
+    (*P1).h.h=125;
+    (*P1).mspeed=0.01;
+    (*P1).bspeed=0.1;
+    (*P1).reload=10000;
+    (*P1).elevation=0.523599;
+    (*P2).depression=-0.0872665
 }
+
+void initBullet
