@@ -16,6 +16,8 @@ struct player{
     float mspeed;//vitesse du joueur
     float bspeed;//vitesse des projectiles
     float reload;//temps de rechargement
+    float munition;//quelle munition ?
+    float canons;//quel canon ?
     float elevation;//elevation maximale du canon
     float depression;//elevation minimale du canon
     
