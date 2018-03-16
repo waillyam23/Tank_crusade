@@ -13,7 +13,7 @@ int main()
 {
   float y=10; //10/20
   float yint;
-  int x=0;
+  int x=200;
 
 
   while(x <= LMAX)
