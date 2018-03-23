@@ -1,0 +1,12 @@
+while(!terminer)
+    {
+        SDL_WaitEvent(&evenements);
+        
+        if(evenements.window.event == SDL_WINDOWEVENT_CLOSE)
+            terminer = true;
+        
+        if(evenements.key.state == SDLK_f )
+            std::cout << "mettre en plein écran";
+        
+        
+    }
