@@ -6,65 +6,95 @@ int main( int argc,char *argv[])
 
 // creation de la fenetre
 
-  SDL_Init(SDL_INIT_EVERYTHING);
+SDL_Init(SDL_INIT_EVERYTHING);
 //initialisation des variables utiles
-SDL_Rect destR;
-destR.x= 0;
-destR.y=500;
-destR.w=40;
-destR.h=35;
+SDL_Rect dest;
+dest.x= 0;
+dest.y=800-350;
+dest.w=400;
+dest.h=350;
+
+SDL_Rect destb;
+destb.x= 0;
+destb.y=0;
+destb.w=1500;
+destb.h=800;
+
+//infos texture :
+Uint32 format;
+int tw=171;
+int th=35;
 
 
-  SDL_Renderer* renderer; //l'oultil de rendu
-  SDL_Surface* surf;//la surface possedant l'image
 
-  SDL_Window *window;//la fenètre
+
+
+
+SDL_Renderer* renderer; //l'outil de rendu
+SDL_Surface* surf;//la surface possedant l'image
+SDL_Surface* background;
+SDL_Texture* texture;//crée une texture
+SDL_Texture* textureb;//crée une texture
+SDL_Window *window;//la fenètre
 //lancement de la fenètre
   window = SDL_CreateWindow("Tank_Crusade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500,800,SDL_WINDOW_RESIZABLE);
 //initialisation du rendu et association avec la fenètre
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+
 	//test si la fenetre est créée
   if(window==NULL)
     {
       cout<<"BRUH";
-      }
+    }
 
 
       //tous les test vont ici
-  surf = SDL_LoadBMP("sdl_icone.bmp");//charge l'image dans la surface
-
-      SDL_RenderPresent(renderer);//?
-
+surf = SDL_LoadBMP("sdl_icone.bmp");//charge l'image dans la surface
+background = SDL_LoadBMP("background.bmp");
 
 //mise a jour
   SDL_Event event;
   bool running=true;
   while(running)
     {
-    {//endroit ou on code tout
-destR.x=destR.x+1;
-if(destR.x>1400)
-destR.x=100;
-
-  SDL_BlitSurface(surf, NULL, SDL_GetWindowSurface(window),&destR);//Blite la surface sur le rendu de la fenetre
-SDL_UpdateWindowSurface(window);//rafraichit le rendu dans la fenètre
-SDL_Delay(5);
+    //endroit ou on code tout
+        dest.x=dest.x+1;
+        if(dest.x>1500)
+        dest.x=-400;
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 
-    }
-      while(SDL_PollEvent(&event))
-	{
-	  if(event.type==SDL_QUIT)
-	  {
-	    running=false;
-	    break;
-	  }
-      }
+        textureb = SDL_CreateTextureFromSurface(renderer,background);
+        SDL_QueryTexture(textureb,&format,NULL,&tw,&th);
+        SDL_RenderCopy(renderer,textureb,NULL,&destb);
+
+        texture = SDL_CreateTextureFromSurface(renderer,surf);
+        SDL_QueryTexture(texture,&format,NULL,&tw,&th);
+        SDL_RenderCopy(renderer,texture,NULL,&dest);
+
+        SDL_RenderPresent(renderer);
+        SDL_RenderClear(renderer);
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyTexture(texture);
+
+
+        SDL_Delay(5);
+
+
+
+
+        while(SDL_PollEvent(&event))
+            {
+                if(event.type==SDL_QUIT)
+                    {
+                        running=false;
+                        break;
+                    }
+            }
     }
 //fermeture de la fenètre
-  SDL_DestroyWindow(window);
-  SDL_Quit();
+SDL_DestroyWindow(window);
+SDL_Quit();
 
   return 0;
 }
-
