@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 using namespace std;
+
 int main( int argc,char *argv[])
 {
 
@@ -13,12 +14,13 @@ int main( int argc,char *argv[])
   SDL_Surface* Loading_Surf;
 
   SDL_Window *window;
-  window = SDL_CreateWindow("TeamTanks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500,800,SDL_WINDOW_RESIZABLE);
+  window = SDL_CreateWindow("Tank Crusade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500,800,SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	
   if(window==NULL)
     {
       cout<<"BRUH";
-      }
+    }
 
 
       //tous les test vont ici
