@@ -7,6 +7,18 @@ while(!terminer)
         
         if(evenements.key.state == SDLK_f )
             std::cout << "mettre en plein écran";
+            
+        if(evements.key.state == SDLK_d )
+            std::cout << "avancer";
+         
+        if(evements.key.state == SDLK_q )
+            std::cout << " reculer";
         
+        if(evements.key.state == SDLK_p ) 
+            std::cout << " pause ou menu";
+            
+        if(evenements.key.state == SDLK_ESCAPE )
+            std::cout << "Quitter";
         
+       
     }
