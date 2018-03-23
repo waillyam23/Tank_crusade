@@ -1,31 +1,34 @@
 #include <iostream>
 #include <SDL.h>
 using namespace std;
-
 int main( int argc,char *argv[])
 {
 
 // creation de la fenetre
 
   SDL_Init(SDL_INIT_EVERYTHING);
-  SDL_Texture *surf, *ecran=NULL;
-    32 ,100, 100, 100, 0;
+  SDL_Texture *texture, *ecran=NULL;
+
   SDL_Renderer* renderer;
-  SDL_Surface* Loading_Surf;
+  SDL_Surface* surf;
+  SDL_Texture* BlueShapes;
 
   SDL_Window *window;
-  window = SDL_CreateWindow("Tank Crusade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500,800,SDL_WINDOW_RESIZABLE);
+  window = SDL_CreateWindow("Tank_Crusade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500,800,SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	
   if(window==NULL)
     {
       cout<<"BRUH";
-    }
+      }
 
 
       //tous les test vont ici
+  surf = SDL_LoadBMP("sdl_icone.bmp");
+  BlueShapes = SDL_CreateTextureFromSurface(renderer, surf);
 
-
+      SDL_RenderPresent(renderer);
+      SDL_BlitSurface(surf, NULL, SDL_GetWindowSurface(window),NULL);
+  //SDL_FreeSurface(surf);
 
 //mise a jour
   SDL_Event event;
@@ -34,6 +37,8 @@ int main( int argc,char *argv[])
     {
     {//endroit ou on code tout
 
+
+SDL_UpdateWindowSurface(window);
 
 
 
