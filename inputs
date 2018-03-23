@@ -1,5 +1,7 @@
 while(!terminer)
     {
+        int x, y; // coordonnées de la souris par rapport à la fenêtre
+        
         SDL_WaitEvent(&evenements);
         
         if(evenements.window.event == SDL_WINDOWEVENT_CLOSE)
@@ -19,6 +21,8 @@ while(!terminer)
             
         if(evenements.key.state == SDLK_ESCAPE )
             std::cout << "Quitter";
-        
+            
+        if(SDL_GetMouseState(&x, &y) == SDL_BUTTON(1)) //SDL_GetMouseState renvoie le bouton appuyé
+            std::cout << "clic gauche de la souris";
        
     }
