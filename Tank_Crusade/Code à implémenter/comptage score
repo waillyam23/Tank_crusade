@@ -1,0 +1,33 @@
+void score_add (int* score)
+{
+  *score += 1;
+}
+
+
+
+//écrire true pour amélioration et false pour pas amélioration
+void upgrading (int* score, player* p, int n)  
+{
+  
+  if (*score >= 5) 
+  if (n=1) return ((p.mspeed=+5) && (score=-5));            // on ajoute 5 pixels de plus
+  //ajouter erreur  
+  
+  if (*score >= 5) 
+  if (n=2) return ((p.bspeed=-0.5) && (score=-5));  // on soustrait 0.5sec
+  //ajouter erreur 
+  
+  if (*score >= 4) 
+  if (n=3) return ((p.reload=-0.5) && (score=-5));  // on soustrait 0.5sec
+  //ajouter erreur 
+  
+  if (*score >= 6) 
+  if (n=4) return ((p.munition=+1) && (score=-6));  //canon +1
+  //ajouter erreur  
+  
+  if (*score >= 7) 
+  if (n=5) return ((p.canon=+1) && (score=-7));   //canon +1
+  //ajouter erreur  
+}
+
+ 
