@@ -8,11 +8,11 @@ int main( int argc,char *argv[])
 
 SDL_Init(SDL_INIT_EVERYTHING);
 //initialisation des variables utiles
-SDL_Rect dest;
-dest.x= 0;
-dest.y=800-350;
-dest.w=400;
-dest.h=350;
+SDL_Rect destp;
+destp.x= 0;
+destp.y=800-350;
+destp.w=80;
+destp.h=70;
 
 SDL_Rect destb;
 destb.x= 0;
@@ -58,9 +58,9 @@ background = SDL_LoadBMP("background.bmp");
   while(running)
     {
     //endroit ou on code tout
-        dest.x=dest.x+1;
-        if(dest.x>1500)
-        dest.x=-400;
+        destp.x=destp.x+1;
+        if(destp.x>1500)
+        destp.x=-400;
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 
@@ -70,7 +70,7 @@ background = SDL_LoadBMP("background.bmp");
 
         texture = SDL_CreateTextureFromSurface(renderer,surf);
         SDL_QueryTexture(texture,&format,NULL,&tw,&th);
-        SDL_RenderCopy(renderer,texture,NULL,&dest);
+        SDL_RenderCopy(renderer,texture,NULL,&destp);
 
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
