@@ -3,20 +3,18 @@
 
 using namespace std;
 
- void round(float x, float y, float v, float angle )
+ void round(float x, float y, float v, float angle)
     {
-        float b_x[700];
-	float b_y[700];
-	float b_v[700];
-	float b_angle[700];
+        float bullet[700][700][700][700];
+
 	int i=0;
 	
       	float vx;
       	float vy;
 	
      
-      //while(y>=0)
-	//{
+      while(y>=0)
+	{
 	  vx = cos(angle)*v;
 	  vy = sin(angle)*v;
 
@@ -25,11 +23,15 @@ using namespace std;
 
 	  v = sqrt(pow(vx,2)+pow((vy-9.81),2));
 	  angle = atan2f((vy-9.81),vx);
+	  bullet[i][0][0][0]=x;
+	  bullet[0][i][0][0]=y;
+	  bullet[0][0][i][0]=v;
+	  bullet[0][0][0][i]=a;
 	  
+	  i=i+1;
 	  
-	  std::cout<<"x = "<<x<<std::cout<<"   y = "<<y<<std::endl;
-	  
-	//}
+	}
+	 i=0;
     }
 
 int main()
