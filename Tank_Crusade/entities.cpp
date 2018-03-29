@@ -71,22 +71,13 @@ void initPlayer (player* P1)
     (*P1).elevation=0.523599;
     (*P1).depression=-0.0872665;
 }
-void tir(float* x, float* y, float* v, float* angle,float bullet[][][][])
-    {
+void initBullet (bullet* B1,player* P1)
+{
+(*B1).c.x=(*P1).c.x;
+(*B1).c.y=(*P1).c.y;
+(*B1).a=atan (*mouse_y - (*P1).c.y / *mouse_x - (*P1).c.x);
 
 
-      	float vx;
-      	float vy;
-
-
-
-        vx = cos(angle)**v;
-        vy = sin(angle)**v;
-        *x += vx;
-        *y += (vy-9.81);
-        *v = sqrt(pow(vx,2)+pow((vy-9.81),2));
-        *angle = atan2f((vy-9.81),vx);
-
-    }
+}
 
 #endif
