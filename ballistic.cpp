@@ -5,12 +5,18 @@ using namespace std;
 
  void round(float x, float y, float v, float angle )
     {
+        float b_x[700];
+	float b_y[700];
+	float b_v[700];
+	float b_angle[700];
+	int i=0;
+	
+      	float vx;
+      	float vy;
+	
      
-      float vx;
-      float vy;
-     
-      while(y>=0)
-	{
+      //while(y>=0)
+	//{
 	  vx = cos(angle)*v;
 	  vy = sin(angle)*v;
 
@@ -19,10 +25,11 @@ using namespace std;
 
 	  v = sqrt(pow(vx,2)+pow((vy-9.81),2));
 	  angle = atan2f((vy-9.81),vx);
-
+	  
+	  
 	  std::cout<<"x = "<<x<<std::cout<<"   y = "<<y<<std::endl;
 	  
-	}
+	//}
     }
 
 int main()
