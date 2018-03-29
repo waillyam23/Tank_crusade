@@ -7,14 +7,16 @@
 
 void initPlayer (player* P1)
 {
-    (*P1).hp=10;
+    (*P1).hp=3;
     (*P1).score=0;
-    (*P1).a=0;
-    (*P1).c.x=0;
-    (*P1).c.y=450;
-    (*P1).c.w=80;
-    (*P1).c.h=70;
-    (*P1).mspeed=5;
+    (*P1).x = 20;
+    (*P1).y = 201;
+    (*P1).a = 0;
+    (*P1).h.x=(*P1).x;
+    (*P1).h.y=(*P1).y;
+    (*P1).h.w=171.;
+    (*P1).h.h=125.;
+    (*P1).mspeed=0.01;
     (*P1).bspeed=0.1;
     (*P1).reload=10000;
     (*P1).munition=0;

@@ -1,15 +1,16 @@
 #include <iostream>
-#include <SDL.h>
 
-//#include "entities.cpp"
-//#include "utility.cpp"
+#include "SDL2/SDL.h"
+
+#include "entities.h"
+#include "utility.h"
 
 using namespace std;
 
 #define W_MAX 1500
 #define H_MAX 800
 
-int main( int argc,char *argv[])
+int main(int argc, char *argv[])
 {
 
     //INITIALISATION DE LA LIBRAIRIE SDL
@@ -26,11 +27,15 @@ int main( int argc,char *argv[])
     DM.h = min(DM.h, H_MAX);
 
     //coordonnées du joueur
-    SDL_Rect coord_p;
+     SDL_Rect coord_p;
     coord_p.x= 0;
     coord_p.y=800-350;
     coord_p.w=80;
     coord_p.h=70;
+
+    //initialisation du joueur
+    player p;
+    initPlayer(&p);
 
     //coordonnées du backgroud
     SDL_Rect destb;
@@ -85,9 +90,8 @@ int main( int argc,char *argv[])
       while(running) //boucle du jeu
 	{
         //code pour faire avancer le tank en ligne droite (obsolète)
-	    coord_p.x=coord_p.x+1;
-	    if(coord_p.x>1500)
-            coord_p.x=-400;
+	    if(p.c.x>1500)
+            p.c.x=-300;
 
 	    //CREATION DU RENDU
 
@@ -101,14 +105,14 @@ int main( int argc,char *argv[])
 	    //création de l'image du joueur
 	    texture_player = SDL_CreateTextureFromSurface(renderer,surface_player);
 	    SDL_QueryTexture(texture_player,&format,NULL,&tw,&th);
-	    SDL_RenderCopy(renderer,texture_player,NULL,&coord_p);
+	    SDL_RenderCopy(renderer,texture_player,NULL,&(p.c));
 
 	    SDL_RenderPresent(renderer);    //création du rendu au premier plan
 	    SDL_RenderClear(renderer);      //mise au second plan du rendu
 	    SDL_DestroyRenderer(renderer);  //supprime le rendu actuel
 	    SDL_DestroyTexture(texture_player); //enlève l'image actuel du joueur pour le prochain rendu (libère l'espace mémoire)
 
-	    SDL_Delay(5); //délai avant une nouvelle mise à jour en mili-secondes
+	    SDL_Delay(10); //délai avant une nouvelle mise à jour en mili-secondes
 
 	    //ENTREES CLAVIER & SOURIS
 
@@ -122,10 +126,16 @@ int main( int argc,char *argv[])
 			}
 
             if(event.key.state == SDLK_d )
-                cout << "avancer";
+                p.c.x = p.c.x + p.mspeed;
 
             if(event.key.state == SDLK_q )
-                cout << " reculer";
+                p.c.x = p.c.x - p.mspeed;
+
+	    if(event.key.state == SDLK_s )
+                p.c.y = p.c.y + p.mspeed;
+
+            if(event.key.state == SDLK_z )
+                p.c.y = p.c.y - p.mspeed;
 
             if(event.key.state == SDLK_p )
                 cout << " pause ou menu";

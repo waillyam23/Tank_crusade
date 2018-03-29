@@ -1,100 +1,150 @@
 #include <iostream>
-#include <SDL.h>
+
+#include "SDL2/SDL.h"
+
+#include "entities.h"
+#include "utility.h"
+
 using namespace std;
-int main( int argc,char *argv[])
+
+#define W_MAX 1500
+#define H_MAX 800
+
+int main(int argc, char *argv[])
 {
 
-// creation de la fenetre
+    //INITIALISATION DE LA LIBRAIRIE SDL
 
-SDL_Init(SDL_INIT_EVERYTHING);
-//initialisation des variables utiles
-SDL_Rect destp;
-destp.x= 0;
-destp.y=800-350;
-destp.w=80;
-destp.h=70;
-
-SDL_Rect destb;
-destb.x= 0;
-destb.y=0;
-destb.w=1500;
-destb.h=800;
-
-//infos texture :
-Uint32 format;
-int tw=171;
-int th=35;
+    SDL_Init(SDL_INIT_EVERYTHING);
 
 
+    //INITIALISATION DES VARIABLES
+
+    //intégration de la résolution de l'écran
+    SDL_DisplayMode DM;
+    SDL_GetCurrentDisplayMode(0, &DM);
+    DM.w = min(DM.w, W_MAX);
+    DM.h = min(DM.h, H_MAX);
+
+    //coordonnées du joueur
+    SDL_Rect coord_p;
+    coord_p.x= 0;
+    coord_p.y=800-350;
+    coord_p.w=80;
+    coord_p.h=70;
+
+    int vitesse = 5; //vitesse du joueur
+
+    //coordonnées du backgroud
+    SDL_Rect destb;
+    destb.x= 0;
+    destb.y=0;
+    destb.w=1500;
+    destb.h=800;
+
+    int mouse_x, mouse_y; // coordonnées de la souris par rapport à la fenêtre
+
+    //infos texture :
+    Uint32 format;
+    int tw; //largeur de la texture en pixel
+    int th; //hauteur de la texture en pixel
+
+    //initialisation des surfaces & textures de bases
+
+    SDL_Window *window;     //La fenètre
+    SDL_Renderer* renderer; //l'outil de rendu
+    SDL_Surface* surface_background;    //la surface contenant l'image de fond
+    SDL_Texture* texture_background;  //sprite de l'image de fond
+
+    //initialisation des surfaces et textures supplémentaires
+
+    SDL_Surface* surface_player;    //la surface contenant l'image du joueur
+    SDL_Texture* texture_player;    //sprite du joueur
 
 
+    //LANCEMENT DE LA FENETRE
+
+    window = SDL_CreateWindow("Tank_Crusade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, DM.w, DM.h, SDL_WINDOW_MINIMIZED);
 
 
-SDL_Renderer* renderer; //l'outil de rendu
-SDL_Surface* surf;//la surface possedant l'image
-SDL_Surface* background;
-SDL_Texture* texture;//crée une texture
-SDL_Texture* textureb;//crée une texture
-SDL_Window *window;//la fenètre
-//lancement de la fenètre
-  window = SDL_CreateWindow("Tank_Crusade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500,800,SDL_WINDOW_RESIZABLE);
-//initialisation du rendu et association avec la fenètre
+    //test si la fenetre est créée
+      if(window==NULL)
+	{
+	  cout<<"BRUH";
+	  return 1;
+	}
 
+	//CHARGEMENT DES IMAGES
 
-	//test si la fenetre est créée
-  if(window==NULL)
-    {
-      cout<<"BRUH";
-    }
+    surface_player = SDL_LoadBMP("./Textures/player_idle.bmp"); //charge l'image dans la surface
+    surface_background = SDL_LoadBMP("./Textures/background.bmp");
 
+    //MISE A JOUR
 
-      //tous les test vont ici
-surf = SDL_LoadBMP("sdl_icone.bmp");//charge l'image dans la surface
-background = SDL_LoadBMP("background.bmp");
+      SDL_Event event; //nom général d'un évènement
 
-//mise a jour
-  SDL_Event event;
-  bool running=true;
-  while(running)
-    {
-    //endroit ou on code tout
-        destp.x=destp.x+1;
-        if(destp.x>1500)
-        destp.x=-400;
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+      bool running=true;
 
+      while(running) //boucle du jeu
+	{
+        //code pour faire avancer le tank en ligne droite (obsolète)
+	    if(coord_p.x>1500)
+            coord_p.x=-400;
 
-        textureb = SDL_CreateTextureFromSurface(renderer,background);
-        SDL_QueryTexture(textureb,&format,NULL,&tw,&th);
-        SDL_RenderCopy(renderer,textureb,NULL,&destb);
+	    //CREATION DU RENDU
 
-        texture = SDL_CreateTextureFromSurface(renderer,surf);
-        SDL_QueryTexture(texture,&format,NULL,&tw,&th);
-        SDL_RenderCopy(renderer,texture,NULL,&destp);
+	    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-        SDL_RenderPresent(renderer);
-        SDL_RenderClear(renderer);
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyTexture(texture);
+        //création de l'image de fond
+	    texture_background = SDL_CreateTextureFromSurface(renderer,surface_background);
+	    SDL_QueryTexture(texture_background,&format,NULL,&tw,&th);
+	    SDL_RenderCopy(renderer,texture_background,NULL,&destb);
 
+	    //création de l'image du joueur
+	    texture_player = SDL_CreateTextureFromSurface(renderer,surface_player);
+	    SDL_QueryTexture(texture_player,&format,NULL,&tw,&th);
+	    SDL_RenderCopy(renderer,texture_player,NULL,&coord_p);
 
-        SDL_Delay(5);
+	    SDL_RenderPresent(renderer);    //création du rendu au premier plan
+	    SDL_RenderClear(renderer);      //mise au second plan du rendu
+	    SDL_DestroyRenderer(renderer);  //supprime le rendu actuel
+	    SDL_DestroyTexture(texture_player); //enlève l'image actuel du joueur pour le prochain rendu (libère l'espace mémoire)
 
+	    SDL_Delay(10); //délai avant une nouvelle mise à jour en mili-secondes
 
+	    //ENTREES CLAVIER & SOURIS
 
+	    while(SDL_PollEvent(&event))
+		{
+            //conditions de fermeture de la fenêtre
+		    if(event.type==SDL_QUIT || event.key.state == SDLK_ESCAPE)
+			{
+			    running=false;
+			    break;
+			}
 
-        while(SDL_PollEvent(&event))
-            {
-                if(event.type==SDL_QUIT)
-                    {
-                        running=false;
-                        break;
-                    }
-            }
-    }
-//fermeture de la fenètre
-SDL_DestroyWindow(window);
-SDL_Quit();
+            if(event.key.state == SDLK_d )
+                coord_p.x = coord_p.x + vitesse;
 
-  return 0;
+            if(event.key.state == SDLK_q )
+                coord_p.x = coord_p.x - vitesse;
+	    
+	    if(event.key.state == SDLK_z )
+                coord_p.y = coord_p.y + vitesse;
+
+            if(event.key.state == SDLK_s )
+                coord_p.y = coord_p.y - vitesse;
+
+            if(event.key.state == SDLK_p )
+                cout << " pause ou menu";
+
+            if(SDL_GetMouseState(&mouse_x, &mouse_y) == SDL_BUTTON(1)) //SDL_GetMouseState renvoie le bouton appuyé
+                cout << "tirer à x : " << mouse_x << " et y : " << mouse_y;
+		}
+	}
+    //fermeture de la fenètre
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+      return 0;
 }
