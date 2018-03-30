@@ -121,6 +121,7 @@ int main(int argc, char *argv[])
 
 	    //ENTREES CLAVIER & SOURIS
 
+	    
 	    while(SDL_PollEvent(&event))
 		{
             //conditions de fermeture de la fenêtre
@@ -130,20 +131,32 @@ int main(int argc, char *argv[])
 			    break;
 			}
 
-            if(event.key.state == SDLK_d )
-                p.c.x = p.c.x + p.mspeed;
 
-            if(event.key.state == SDLK_q )
-                p.c.x = p.c.x - p.mspeed;
+            switch(event.key.keysym.sym)
+            {
+                case SDLK_d : p.c.x = p.c.x + p.mspeed;
+                break;
+                case SDLK_RIGHT : p.c.x = p.c.x + p.mspeed;
+                break;
+                case SDLK_q :  p.c.x = p.c.x - p.mspeed;
+                break;
+                case SDLK_LEFT :  p.c.x = p.c.x - p.mspeed;
+                break;
+                case SDLK_s : p.c.y = p.c.y + p.mspeed;
+                break;
+                case SDLK_DOWN : p.c.y = p.c.y + p.mspeed;
+                break;
+                case SDLK_z :  p.c.y = p.c.y - p.mspeed;
+                break;
+                case SDLK_UP :  p.c.y = p.c.y - p.mspeed;
+                break;
+                case SDLK_p :  cout << " pause ou menu";
+                break;
+                default:
+                break;
 
-            if(event.key.state == SDLK_s )
-                p.c.y = p.c.y + p.mspeed;
+            }
 
-            if(event.key.state == SDLK_z )
-                p.c.y = p.c.y - p.mspeed;
-
-            if(event.key.state == SDLK_p )
-                cout << " pause ou menu";
 
             if(SDL_GetMouseState(&mouse_x, &mouse_y) == SDL_BUTTON(1)) //SDL_GetMouseState renvoie le bouton appuyé
                 cout << "tirer à x : " << mouse_x << " et y : " << mouse_y;
