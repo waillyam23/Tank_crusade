@@ -26,12 +26,7 @@ int main(int argc, char *argv[])
     DM.w = min(DM.w, W_MAX);
     DM.h = min(DM.h, H_MAX);
 
-    //coordonnées du joueur
-    SDL_Rect coord_p;
-    coord_p.x= 0;
-    coord_p.y=800-350;
-    coord_p.w=80;
-    coord_p.h=70;
+
     //variable si le joueur tire ou pas
     bool tir_p=false;
 
@@ -49,6 +44,7 @@ int main(int argc, char *argv[])
     destb.w=1500;
     destb.h=800;
 
+    //coordonnées de l'obus
     int mouse_x, mouse_y; // coordonnées de la souris par rapport à la fenêtre
 
     //infos texture :
@@ -68,6 +64,10 @@ int main(int argc, char *argv[])
     SDL_Surface* surface_player;    //la surface contenant l'image du joueur
     SDL_Texture* texture_player;    //sprite du joueur
 
+    SDL_Surface* surface_bullet;    //la surface contenant l'image de l'obus
+    SDL_Texture* texture_bullet;    //sprite de l'obus
+
+
 
     //LANCEMENT DE LA FENETRE
 
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 
     surface_player = SDL_LoadBMP("./Textures/player_idle.bmp"); //charge l'image dans la surface
     surface_background = SDL_LoadBMP("./Textures/background.bmp");
-
+    surface_bullet = SDL_LoadBMP("./Textures/tank_bullet.bmp");
     //MISE A JOUR
 
       SDL_Event event; //nom général d'un évènement
@@ -97,12 +97,8 @@ int main(int argc, char *argv[])
         //code pour faire avancer le tank en ligne droite (obsolète)
 	    if(p.c.x>1500)
             p.c.x=-300;
-        //teste si tir_p est vrai et lance le calcul du tir
-        if(tir_p==true)
-        {initBullet(&B1,&p,mouse_x,mouse_y);
-        tir(&B1);
-        tir_p=false;
-        }
+
+
 	    //CREATION DU RENDU
 
 	    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -117,17 +113,34 @@ int main(int argc, char *argv[])
 	    SDL_QueryTexture(texture_player,&format,NULL,&tw,&th);
 	    SDL_RenderCopy(renderer,texture_player,NULL,&(p.c));
 
+        //teste si tir_p est vrai et lance le calcul du tir
+        if(tir_p==true)
+        {bullet B1;
+        initBullet(&B1,&p,mouse_x,mouse_y);
+        tir(&B1);
+        }
+	    //création de m'image de l'obus
+
+	    {texture_bullet = SDL_CreateTextureFromSurface(renderer,surface_bullet);
+	    SDL_QueryTexture(texture_bullet,&format,NULL,&tw,&th);
+	    SDL_RenderCopy(renderer,texture_bullet,NULL,&(B1.c));
+	    }
+
 
 	    //création du terrain
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-	    SDL_RenderDrawLine(renderer,0, 200, 300, 240);
 
 	    SDL_RenderPresent(renderer);    //création du rendu au premier plan
 	    SDL_RenderClear(renderer);      //mise au second plan du rendu
 	    SDL_DestroyRenderer(renderer);  //supprime le rendu actuel
-	    SDL_DestroyTexture(texture_player); //enlève l'image actuel du joueur pour le prochain rendu (libère l'espace mémoire)
+	    SDL_DestroyTexture(texture_player);//enlève l'image actuel du joueur pour le prochain rendu (libère l'espace mémoire)
+	    SDL_DestroyTexture(texture_bullet); //enlève l'image actuel de l'obus pour le prochain rendu (libère l'espace mémoire)
 
 	    SDL_Delay(10); //délai avant une nouvelle mise à jour en mili-secondes
+
+        if(B1.c.y>900)
+        tir_p=false;
+
+
 
 	    //ENTREES CLAVIER & SOURIS
 
@@ -156,7 +169,7 @@ int main(int argc, char *argv[])
                 cout << " pause ou menu";
 
             if(SDL_GetMouseState(&mouse_x, &mouse_y) == SDL_BUTTON(1)) //SDL_GetMouseState renvoie le bouton appuyé
-                cout << "tirer à x : " << mouse_x << " et y : " << mouse_y;
+            tir_p=true;
 		}
 	}
     //fermeture de la fenètre

@@ -25,11 +25,14 @@ void initPlayer (player* P1)
 void initBullet (bullet* B, player* P1,int mouse_x, int mouse_y)
 {
 
-(*B).c.x=(*P1).c.x;
-(*B).c.y=(*P1).c.y;
-(*B).a=atan (mouse_y - (*P1).c.y / mouse_x - (*P1).c.x);
+    (*B).c.x=(*P1).c.x;
+    (*B).c.y=(*P1).c.y;
+    (*B).a=atan (mouse_y - (*P1).c.y / mouse_x - (*P1).c.x);
+    (*B).c.w=100;
+    (*B).c.h=140;
+    (*B).v=100;
+
 
 
 }
-//void initBullet
 #endif
