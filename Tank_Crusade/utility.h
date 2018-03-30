@@ -10,4 +10,6 @@ void hpLossPlayer(player joueur);
 //Perte de hp des tanks ennemis
 void hpLossTank(tank ennemi);
 
+void procedural_generation();
+
 #endif

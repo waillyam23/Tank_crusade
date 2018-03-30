@@ -6,7 +6,7 @@ CC = g++
 CFLAGS = -Wall -Wextra -o
 CFILES = main.cpp entities.cpp utility.cpp
 OFILES = main.o entities.o utility.o
-SDL = -lSDL2 -I SDL2/ -L lib/C^
+SDL = -lSDL2 -I SDL2/
 
 # Definition de la premiere regle
 

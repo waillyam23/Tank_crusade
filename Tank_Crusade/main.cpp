@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     DM.h = min(DM.h, H_MAX);
 
     //coordonnées du joueur
-     SDL_Rect coord_p;
+    SDL_Rect coord_p;
     coord_p.x= 0;
     coord_p.y=800-350;
     coord_p.w=80;
@@ -107,6 +107,11 @@ int main(int argc, char *argv[])
 	    SDL_QueryTexture(texture_player,&format,NULL,&tw,&th);
 	    SDL_RenderCopy(renderer,texture_player,NULL,&(p.c));
 
+
+	    //création du terrain
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	    SDL_RenderDrawLine(renderer,0, 200, 300, 240);
+
 	    SDL_RenderPresent(renderer);    //création du rendu au premier plan
 	    SDL_RenderClear(renderer);      //mise au second plan du rendu
 	    SDL_DestroyRenderer(renderer);  //supprime le rendu actuel
@@ -131,7 +136,7 @@ int main(int argc, char *argv[])
             if(event.key.state == SDLK_q )
                 p.c.x = p.c.x - p.mspeed;
 
-	    if(event.key.state == SDLK_s )
+            if(event.key.state == SDLK_s )
                 p.c.y = p.c.y + p.mspeed;
 
             if(event.key.state == SDLK_z )
