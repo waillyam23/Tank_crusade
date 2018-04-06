@@ -12,4 +12,6 @@ void hpLossTank(tank ennemi);
 
 void procedural_generation();
 
+void procedural_init(SDL_Point t[]);
+
 #endif

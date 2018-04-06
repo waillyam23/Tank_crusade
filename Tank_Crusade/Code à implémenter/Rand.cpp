@@ -1,34 +1,30 @@
 #include <iostream>
 #include <cstdlib>
+#include <time.h>
 
+#define MAX 800-30
+#define MIN 800-500
 
-#define MAX 400
-#define MIN 30
-#define LMAX 100000
-
-
-
+struct coord{
+int x;
+int y;
+};
 
 int main()
 {
-  float y=10; //10/20
-  float yint;
-  int x=200;
-
-
-  while(x <= LMAX)
+    coord t[10];
+    t[0].x=0;
+    t[0].y=800-30;
+    int yint;
+    for(int i=1; i<10; i++)
     {
-      yint= static_cast <float> (rand())/static_cast <float> (RAND_MAX/2) -1;
-      if(y+yint>MAX)
-	yint=-1.*yint;
-      if(y+yint<MIN)
-	yint=-1.*yint;
-      y=y+yint;
-      std::cout<<"x : "<<x<<" "<<"y : "<<y<<std::endl;
-      x+=rand() % 100 + 30;
+        yint = rand()%(MAX-MIN) - (MAX-MIN)/2;
+        std::cout << yint << " ";
+        if(t[i].y+yint>MAX)
+            yint=-1.*yint;
+        if(t[i].y+yint<MIN)
+            yint=-1.*yint;
+        t[i].y=t[i].y+yint;
+        t[i].x=t[i].x+rand() % 200+ 50;
     }
-
-
-  return 0;
 }
-

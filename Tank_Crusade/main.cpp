@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "SDL2/SDL.h"
+//#include "./SDL2_ttf-2.0.14/SDL_ttf.h"
 
 #include "entities.h"
 #include "utility.h"
@@ -12,11 +13,21 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-
     //INITIALISATION DE LA LIBRAIRIE SDL
 
     SDL_Init(SDL_INIT_EVERYTHING);
 
+    //initialisation des surfaces & textures de bases
+
+    SDL_Window *window;     //La fenètre
+    SDL_Renderer* renderer; //l'outil de rendu
+    SDL_Surface* surface_background;    //la surface contenant l'image de fond
+    SDL_Texture* texture_background;  //sprite de l'image de fond
+
+    //initialisation des surfaces et textures supplémentaires
+
+    SDL_Surface* surface_player;    //la surface contenant l'image du joueur
+    SDL_Texture* texture_player;    //sprite du joueur
 
     //INITIALISATION DES VARIABLES
 
@@ -25,13 +36,6 @@ int main(int argc, char *argv[])
     SDL_GetCurrentDisplayMode(0, &DM);
     DM.w = min(DM.w, W_MAX);
     DM.h = min(DM.h, H_MAX);
-
-    //coordonnées du joueur
-    SDL_Rect coord_p;
-    coord_p.x= 0;
-    coord_p.y=800-350;
-    coord_p.w=80;
-    coord_p.h=70;
 
     //initialisation du joueur
     player p;
@@ -46,23 +50,13 @@ int main(int argc, char *argv[])
 
     int mouse_x, mouse_y; // coordonnées de la souris par rapport à la fenêtre
 
+    SDL_Point terrain[30]={{0,0}}; //création des coordonnées du terrain
+    procedural_init(terrain);
+
     //infos texture :
     Uint32 format;
     int tw; //largeur de la texture en pixel
     int th; //hauteur de la texture en pixel
-
-    //initialisation des surfaces & textures de bases
-
-    SDL_Window *window;     //La fenètre
-    SDL_Renderer* renderer; //l'outil de rendu
-    SDL_Surface* surface_background;    //la surface contenant l'image de fond
-    SDL_Texture* texture_background;  //sprite de l'image de fond
-
-    //initialisation des surfaces et textures supplémentaires
-
-    SDL_Surface* surface_player;    //la surface contenant l'image du joueur
-    SDL_Texture* texture_player;    //sprite du joueur
-
 
     //LANCEMENT DE LA FENETRE
 
@@ -107,10 +101,9 @@ int main(int argc, char *argv[])
 	    SDL_QueryTexture(texture_player,&format,NULL,&tw,&th);
 	    SDL_RenderCopy(renderer,texture_player,NULL,&(p.c));
 
-
 	    //création du terrain
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-	    SDL_RenderDrawLine(renderer,0, 200, 300, 240);
+	    SDL_RenderDrawLines(renderer, terrain, 30);
 
 	    SDL_RenderPresent(renderer);    //création du rendu au premier plan
 	    SDL_RenderClear(renderer);      //mise au second plan du rendu
@@ -121,7 +114,6 @@ int main(int argc, char *argv[])
 
 	    //ENTREES CLAVIER & SOURIS
 
-	    
 	    while(SDL_PollEvent(&event))
 		{
             //conditions de fermeture de la fenêtre
@@ -131,32 +123,20 @@ int main(int argc, char *argv[])
 			    break;
 			}
 
+            if(event.key.state == SDLK_d )
+                p.c.x = p.c.x + p.mspeed;
 
-            switch(event.key.keysym.sym)
-            {
-                case SDLK_d : p.c.x = p.c.x + p.mspeed;
-                break;
-                case SDLK_RIGHT : p.c.x = p.c.x + p.mspeed;
-                break;
-                case SDLK_q :  p.c.x = p.c.x - p.mspeed;
-                break;
-                case SDLK_LEFT :  p.c.x = p.c.x - p.mspeed;
-                break;
-                case SDLK_s : p.c.y = p.c.y + p.mspeed;
-                break;
-                case SDLK_DOWN : p.c.y = p.c.y + p.mspeed;
-                break;
-                case SDLK_z :  p.c.y = p.c.y - p.mspeed;
-                break;
-                case SDLK_UP :  p.c.y = p.c.y - p.mspeed;
-                break;
-                case SDLK_p :  cout << " pause ou menu";
-                break;
-                default:
-                break;
+            if(event.key.state == SDLK_q )
+                p.c.x = p.c.x - p.mspeed;
 
-            }
+            if(event.key.state == SDLK_s )
+                p.c.y = p.c.y + p.mspeed;
 
+            if(event.key.state == SDLK_z )
+                p.c.y = p.c.y - p.mspeed;
+
+            if(event.key.state == SDLK_p )
+                cout << " pause ou menu";
 
             if(SDL_GetMouseState(&mouse_x, &mouse_y) == SDL_BUTTON(1)) //SDL_GetMouseState renvoie le bouton appuyé
                 cout << "tirer à x : " << mouse_x << " et y : " << mouse_y;
