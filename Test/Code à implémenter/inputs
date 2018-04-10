@@ -1,0 +1,28 @@
+while(!terminer)
+    {
+        int x, y; // coordonnées de la souris par rapport à la fenêtre
+        
+        SDL_WaitEvent(&evenements);
+        
+        if(evenements.window.event == SDL_WINDOWEVENT_CLOSE)
+            terminer = true;
+        
+        if(evenements.key.state == SDLK_f )
+            std::cout << "mettre en plein écran";
+            
+        if(evements.key.state == SDLK_d )
+            std::cout << "avancer";
+         
+        if(evements.key.state == SDLK_q )
+            std::cout << " reculer";
+        
+        if(evements.key.state == SDLK_p ) 
+            std::cout << " pause ou menu";
+            
+        if(evenements.key.state == SDLK_ESCAPE )
+            std::cout << "Quitter";
+            
+        if(SDL_GetMouseState(&x, &y) == SDL_BUTTON(1)) //SDL_GetMouseState renvoie le bouton appuyé
+            std::cout << "clic gauche de la souris";
+       
+    }
