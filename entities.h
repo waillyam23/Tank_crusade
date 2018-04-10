@@ -28,31 +28,34 @@ struct player{
 
 //Projectiles
 struct bullet{
-    float x;    //position x
-    float y;    //position y
+    SDL_Rect c; //coordonnées et hitbox du joueur
     float v;    //vitesse de
     float a;    //angle v
-    hitbox h;
+
 };
 
 //Ennemis
 struct tank{
     int hp;     //vie de l'ennemi
-    float x;    //position x de l'ennemi
-    float y;    //position y de l'ennemi
+    SDL_Rect c; //coordonnées et hitbox du joueur
     float a;    //angle de tir de l'ennemi
-    hitbox h;  //hitbox de l'ennemi
+
 };
 
 //Bâtiments
 struct bat{
     int hp;       //vie du bêtiment
-    float x, y;   //position x et y
-    hitbox h;    //hitbox du batiment
+    SDL_Rect c; //coordonnées et hitbox du joueur
 };
 
 //PROTOTYPES DES FONCTIONS
 
 void initPlayer (player* P1);
+
+void destroyPlayer();
+
+void initEnnemi (tank* T);
+
+void initBullet (bullet* B, player* P1, SDL_Rect curseur);
 
 #endif
