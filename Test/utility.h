@@ -20,6 +20,12 @@ void surLaLigneE (tank* T, SDL_Point t[]);
 
 void cameraCentered(SDL_Rect* camera, player* P);
 
+bool colliProjEnnemi (bullet* box1, tank* box2);
+
+bool colliProjJoueur (bullet* box1, player* box2);
+
+bool colliProjJoueur (bullet* box1, player* box2);
+
 void tir(bullet* B);
 
 #endif
