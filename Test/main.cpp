@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
                 p.c.x = p.c.x + p.mspeed;
 
             if(event.key.state == SDLK_k )
-                e.hp-=1;
+                initEnnemi(&e);
 
             if(event.key.state == SDLK_q )
                 p.c.x = p.c.x - p.mspeed;
@@ -173,29 +173,39 @@ int main(int argc, char *argv[])
 	    SDL_QueryTexture(texture_background,&format,NULL,&tw,&th);
 	    SDL_RenderCopy(renderer,texture_background,NULL,&destb);
 
+        if(e.hp>0)
+	    {
+            if(colliProjEnnemi(&Bp,&e)==true)
+            {
+                e.hp -= 1;
+                tir_p=false;
+            }
+        }
 	    //création de l'image de l'ennemi
-	    if(e.hp>0)
-        {
-            texture_ennemis = SDL_CreateTextureFromSurface(renderer,surface_ennemis);
-            SDL_QueryTexture(texture_ennemis,&format,NULL,&tw,&th);
-            SDL_RenderCopy(renderer,texture_ennemis,NULL,&(e.c));
-            if(e.c.x>1450)
-                e.c.x -= 10;
+            if(e.hp>0)
+            {
+                texture_ennemis = SDL_CreateTextureFromSurface(renderer,surface_ennemis);
+                SDL_QueryTexture(texture_ennemis,&format,NULL,&tw,&th);
+                SDL_RenderCopy(renderer,texture_ennemis,NULL,&(e.c));
+                if(e.c.x>1450)
+                    e.c.x -= 10;
 
 
             if(Bp.c.y<e.c.y+80&&tir_p==true)
-            {   if(e.c.x<Bp.c.x)
+            {
+                if(e.c.x<Bp.c.x)
                     e.c.x -= 5;
                 else
-                {
-                    if(e.c.x>Bp.c.x)
-                        e.c.x += 10;
-                }
+            {
+                if(e.c.x>Bp.c.x)
+                    e.c.x += 5;
             }
-            else
+            }
+        else
             e.c.x -= 2;
 
-        }
+            }
+
 
         //création de l'image du joueur
 	    texture_player = SDL_CreateTextureFromSurface(renderer,surface_player);
